@@ -1,0 +1,37 @@
+community:
+  enabled: true
+
+# Add this line to resolve the validation error
+monitoringPasscode: "SonarMonitorPass123!"
+
+# Setting up external PostgreSQL
+postgresql:
+  enabled: false # Disable the built-in PostgreSQL
+
+jdbcOverwrite:
+  enable: true
+  jdbcUrl: "jdbc:postgresql://gaia-ec5fe91df091-pg.postgres.database.azure.com:5432/sonarqube"
+  jdbcUsername: "psqladmin"
+  jdbcPassword: "H@Sh1CoR3!"
+
+# SonarQube properties
+sonarProperties:
+  sonar.jdbc.username: psqladmin
+  sonar.jdbc.password: H@Sh1CoR3!
+  sonar.jdbc.url: jdbc:postgresql://gaia-ec5fe91df091-pg.postgres.database.azure.com:5432/sonarqube
+
+# Persistence configuration  
+persistence:
+  enabled: true
+  storageClass: "default"
+  size: 10Gi
+  accessMode: ReadWriteOnce
+
+# Service configuration
+service:
+  type: LoadBalancer
+
+# Elasticsearch settings
+elasticsearch:
+  bootstrapChecks: false
+  javaOpts: "-Xmx512m -Xms512m"
