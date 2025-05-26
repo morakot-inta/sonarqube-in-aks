@@ -13,17 +13,7 @@ This repository contains the configuration for deploying SonarQube in an AKS env
 
 ## Installation Steps
 
-### 1. Connect to the AKS Cluster
-
-```sh
-az account set --subscription ab67c280-e37d-49b2-9a0d-f575ed98d7be
-az aks get-credentials \
-  --resource-group "gaia-ec5fe91df091-rg" \
-  --name gaia-ec5fe91df091-aks \
-  --overwrite-existing
-```
-
-### 2. Create the SonarQube Database in Azure PostgreSQL
+### 1. Create the SonarQube Database in Azure PostgreSQL
 
 Create a PostgreSQL client pod in the SonarQube namespace to perform database operations:
 
@@ -52,7 +42,7 @@ kubectl wait --for=condition=Ready pod/pg-client -n sonarqube --timeout=60s
 kubectl exec -it pg-client -n sonarqube -- bash -c "PGPASSWORD='H@Sh1CoR3!' psql -h gaia-ec5fe91df091-pg.postgres.database.azure.com -U psqladmin -d postgres -c \"CREATE DATABASE sonarqube OWNER psqladmin ENCODING 'UTF8' TEMPLATE template0;\""
 ```
 
-### 3. Configure SonarQube Values File
+### 2. Configure SonarQube Values File
 
 Create a `sonarqube-values.yaml` file with the following content to configure SonarQube to use the external PostgreSQL database:
 
@@ -103,7 +93,7 @@ helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
 helm repo update
 
 # Set a monitoring passcode (for Developer Edition)
-export MONITORING_PASSCODE=SonarMonitorPass123!
+export MONITORING_PASSCODE=P@ssw0rd
 
 # Install or upgrade SonarQube using values file
 helm upgrade --install -n sonarqube sonarqube sonarqube/sonarqube -f sonarqube-values.yaml --set monitoringPasscode=$MONITORING_PASSCODE
