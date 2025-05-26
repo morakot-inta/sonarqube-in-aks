@@ -83,14 +83,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   depends_on            = [azurerm_subnet.pg]
 }
 
-resource "random_password" "pg" {
-  length  = 8 
-  special = true
-  upper   = true
-  lower   = true
-  number  = true 
-}
-
 resource "azurerm_postgresql_flexible_server" "this" {
   name                          = "${local.name}-${random_id.prefix.hex}-pg" 
   resource_group_name           = azurerm_resource_group.this.name
@@ -100,7 +92,7 @@ resource "azurerm_postgresql_flexible_server" "this" {
   private_dns_zone_id           = azurerm_private_dns_zone.this.id
   public_network_access_enabled = false
   administrator_login           = "psqladmin"
-  administrator_password        = random_password.pg.result
+  administrator_password        = "H@Sh1CoR3!" 
   zone                          = "1"
 
   storage_mb   = 32768
